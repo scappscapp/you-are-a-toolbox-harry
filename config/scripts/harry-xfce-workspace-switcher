@@ -26,20 +26,22 @@ TITLE="Workspace"
 WORKSPACE_NUM=$(wmctrl -d | wc -l)
 WORKSPACE_CURRENT=$(wmctrl -d | grep \* | cut -d' ' -f1)
 
+TIME=1500
+
 if [ $1 = "left" ]; then
     WORKSPACE_TARGET=$(($WORKSPACE_CURRENT-1))
     if [ $WORKSPACE_TARGET -lt 0 ]; then
         WORKSPACE_TARGET=$(($WORKSPACE_NUM-1)) 
     fi
     wmctrl -s $WORKSPACE_TARGET
-    notify-send $TITLE $WORKSPACE_TARGET 
+    notify-send "$TITLE $(($WORKSPACE_TARGET+1))" -t $TIME
 elif [ $1 = "right" ]; then 
     WORKSPACE_TARGET=$(($WORKSPACE_CURRENT+1))
     if [ $WORKSPACE_TARGET -ge $WORKSPACE_NUM ]; then
         WORKSPACE_TARGET=0 
     fi
     wmctrl -s $WORKSPACE_TARGET
-    notify-send $TITLE $WORKSPACE_TARGET 
+    notify-send "$TITLE $(($WORKSPACE_TARGET+1))" -t $TIME
 else
     notify-send $TITLE "specify left or right to this command" 
 fi
